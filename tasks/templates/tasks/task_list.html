@@ -4,34 +4,47 @@
 
 {% block content %}
     <h1>My Tasks</h1>
-    <a class="add-link" href="{% url 'task_create' %}">+ Add task</a>
-    <p>
-        <a href="{% url 'task_list' %}">All</a> |
-        <a href="?status=pending">Pending</a> |
-        <a href="?status=done">Done</a>
-    </p>
 
-    <ul>
+    <a class="btn-add" href="{% url 'task_create' %}">＋ Add task</a>
+
+    <div class="filter-bar">
+        <a href="{% url 'task_list' %}" {% if not status %}class="active"{% endif %}>All</a>
+        <a href="?status=pending" {% if status == 'pending' %}class="active"{% endif %}>Pending</a>
+        <a href="?status=done" {% if status == 'done' %}class="active"{% endif %}>Done</a>
+    </div>
+
+    <ul class="task-list">
         {% for task in tasks %}
-            <li>
+            <li class="{% if task.completed %}completed{% endif %}">
+
                 <form method="post" action="{% url 'task_toggle' task.pk %}">
                     {% csrf_token %}
-                    <button class="toggle" type="submit">
+                    <button class="btn-toggle {% if task.completed %}done{% endif %}" type="submit" title="Toggle complete">
                         {% if task.completed %}✓{% else %}○{% endif %}
                     </button>
                 </form>
 
-                <span class="title {% if task.completed %}done{% endif %}">{{ task.title }}</span>
-                    {% if task.due_date %}
-                    <small class="{% if task.is_overdue %}overdue{% endif %}">
-                    Due {{ task.due_date|date:"M d" }}
-                    </small>
-        {% endif %}
-                <a href="{% url 'task_update' task.pk %}">Edit</a>
-                <a href="{% url 'task_delete' task.pk %}">Delete</a>
+                <span class="task-title {% if task.completed %}done{% endif %}">{{ task.title }}</span>
+
+                {% if task.due_date %}
+                    <span class="due-badge {% if task.is_overdue %}overdue{% endif %}">
+                        {% if task.is_overdue %}⚠️{% else %}📅{% endif %}
+                        Due {{ task.due_date|date:"M d" }}
+                    </span>
+                {% endif %}
+
+                <div class="task-actions">
+                    <a class="edit" href="{% url 'task_update' task.pk %}">Edit</a>
+                    <a class="delete" href="{% url 'task_delete' task.pk %}">Delete</a>
+                </div>
             </li>
         {% empty %}
-            <li>No tasks yet!</li>
+            <li style="border:none; box-shadow:none; background:transparent; justify-content:center;">
+                <div class="empty-state">
+                    <div class="emoji">📭</div>
+                    <p>No tasks yet — add one above!</p>
+                </div>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

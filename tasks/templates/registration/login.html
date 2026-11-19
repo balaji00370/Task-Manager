@@ -3,11 +3,24 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-    <h1>Log in</h1>
+<div class="auth-card">
+    <h1>Welcome back 👋</h1>
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="message error">⚠️ {{ error }}</div>
+        {% endfor %}
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Log in</button>
+        <div class="form-actions">
+            <button type="submit">Log in</button>
+        </div>
     </form>
-    <p>No account? <a href="{% url 'signup' %}">Sign up</a></p>
+    <p style="margin-top:1.25rem; text-align:center; color:#64748b; font-size:.9rem;">
+        No account? <a href="{% url 'signup' %}">Sign up</a>
+    </p>
+</div>
 {% endblock %}

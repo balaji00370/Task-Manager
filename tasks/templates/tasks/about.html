@@ -3,6 +3,17 @@
 {% block title %}About{% endblock %}
 
 {% block content %}
-    <h1>About</h1>
-    <p>This is a task manager I'm building to learn Django.</p>
+<div class="form-card" style="text-align:center; padding:2.5rem;">
+    <div style="font-size:3rem; margin-bottom:1rem;">✅</div>
+    <h1 style="margin-bottom:.75rem;">About TaskManager</h1>
+    <p style="color:#64748b; font-size:1rem; line-height:1.7; max-width:400px; margin:0 auto;">
+        A simple, clean task manager built with <strong>Django</strong>.<br>
+        Create, organize, and track your daily tasks with ease.<br><br>
+        Built to learn Django — features include per-user tasks,
+        due dates, overdue alerts, and status filtering.
+    </p>
+    <a class="btn-add" href="{% url 'task_list' %}" style="margin-top:1.75rem; display:inline-flex;">
+        Go to My Tasks →
+    </a>
+</div>
 {% endblock %}

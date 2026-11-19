@@ -3,11 +3,15 @@
 {% block title %}{{ heading }}{% endblock %}
 
 {% block content %}
-    <h1>{{ heading }}</h1>
+<h1>{{ heading }}</h1>
+<div class="form-card">
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
-        <a href="{% url 'task_list' %}">Cancel</a>
+        <div class="form-actions">
+            <button type="submit">Save</button>
+            <a class="btn btn-secondary" href="{% url 'task_list' %}">Cancel</a>
+        </div>
     </form>
+</div>
 {% endblock %}

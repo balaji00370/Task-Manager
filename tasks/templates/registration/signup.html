@@ -3,11 +3,24 @@
 {% block title %}Sign up{% endblock %}
 
 {% block content %}
-    <h1>Sign up</h1>
+<div class="auth-card">
+    <h1>Create account 🚀</h1>
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="message error">⚠️ {{ error }}</div>
+        {% endfor %}
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Create account</button>
+        <div class="form-actions">
+            <button type="submit">Create account</button>
+        </div>
     </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    <p style="margin-top:1.25rem; text-align:center; color:#64748b; font-size:.9rem;">
+        Already have an account? <a href="{% url 'login' %}">Log in</a>
+    </p>
+</div>
 {% endblock %}
